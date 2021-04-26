@@ -17,8 +17,27 @@ spacing = 6
 ticks_per_second = 10
 tick_time_ms = 100
 
-player_1 = Player("Player 1", 100, 100, 2, 0)
-player_2 = Player("Player 2", 100, 100, 2, 0)
+
+try:
+    with open("../config/default.txt", 'r') as f:
+        lines = f.read()
+        p1 = lines.split('\n')[1].split(',')
+        p2 = lines.split('\n')[2].split(',')
+        player_1 = Player(p1[0], int(p1[1]), int(p1[2]), int(p1[3]), int(p1[4]))
+        player_2 = Player(p2[0], int(p2[1]), int(p2[2]), int(p2[3]), int(p2[4]))
+
+except FileNotFoundError:
+    try:
+        with open("config/default.txt", 'r') as f:
+            lines = f.read()
+            p1 = lines.split('\n')[1].split(',')
+            p2 = lines.split('\n')[2].split(',')
+            player_1 = Player(p1[0], int(p1[1]), int(p1[2]), int(p1[3]), int(p1[4]))
+            player_2 = Player(p2[0], int(p2[1]), int(p2[2]), int(p2[3]), int(p2[4]))
+
+    except FileNotFoundError:
+        player_1 = Player("Player 1", 100, 100, 2, 0)
+        player_2 = Player("Player 2", 100, 100, 2, 0)
 
 for i, player_ in enumerate((player_1, player_2)):
     labels[(player_.name, "name")] = Label(main_window.win, text=player_.name, bg=main_window.bg_colour, fg="white",
